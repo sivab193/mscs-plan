@@ -49,12 +49,23 @@ async function main() {
         note: row.Note.replace(/\s+/g, ' '), firstDate: row['First Date'], lastDate: row['Last Date'], source: basename(file) })
     }
   }
-  // The exports contain a row for every meeting date. Keep one card per distinct
-  // scheduled section, while preserving genuinely different sections/meeting times.
-  const uniqueSections = [...new Map(sections.map(section => [
+  // The exports contain a row for every meeting date. Remove date occurrences first.
+  const scheduledSections: CsvRow[] = [...new Map<string, CsvRow>(sections.map(section => [
     [section.term, section.courseCode, section.section, section.title, section.type, section.days, section.start, section.end, section.location, section.instructor].join('\u001f'),
     section,
   ])).values()]
+  // A lecture, PSO, or lab is a component of one course—not a separate catalog card.
+  // Keep distinct special topics when they have different titles under the same code.
+  const courseGroups = new Map<string, CsvRow[]>()
+  for (const section of scheduledSections) {
+    const key = [section.term, section.courseCode, section.title].join('\u001f')
+    courseGroups.set(key, [...(courseGroups.get(key) ?? []), section])
+  }
+  const uniqueSections: CsvRow[] = [...courseGroups.values()].map((components): CsvRow => {
+    const primary = [...components].sort((a, b) => Number(!/lecture/i.test(a.type)) - Number(!/lecture/i.test(b.type)))[0]
+    const componentTypes = [...new Set(components.map(component => component.type).filter(Boolean))]
+    return { ...primary, id: `${primary.term}-${primary.courseCode}-${primary.title}`, note: components.length > 1 ? `${primary.note}${primary.note ? ' · ' : ''}Includes ${components.length} course components (${componentTypes.join(', ')})` : primary.note }
+  }).sort((a, b) => a.term.localeCompare(b.term) || a.courseCode.localeCompare(b.courseCode, undefined, { numeric: true }) || a.title.localeCompare(b.title))
   await mkdir(resolve('src/data'), { recursive: true })
   await writeFile(resolve('src/data/sections.json'), JSON.stringify(uniqueSections, null, 2) + '\n')
   console.log(`Imported ${uniqueSections.length} distinct MS-level CS sections across ${new Set(uniqueSections.map(s => s.term)).size} terms.`)
