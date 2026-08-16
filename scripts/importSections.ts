@@ -49,8 +49,14 @@ async function main() {
         note: row.Note.replace(/\s+/g, ' '), firstDate: row['First Date'], lastDate: row['Last Date'], source: basename(file) })
     }
   }
+  // The exports contain a row for every meeting date. Keep one card per distinct
+  // scheduled section, while preserving genuinely different sections/meeting times.
+  const uniqueSections = [...new Map(sections.map(section => [
+    [section.term, section.courseCode, section.section, section.title, section.type, section.days, section.start, section.end, section.location, section.instructor].join('\u001f'),
+    section,
+  ])).values()]
   await mkdir(resolve('src/data'), { recursive: true })
-  await writeFile(resolve('src/data/sections.json'), JSON.stringify(sections, null, 2) + '\n')
-  console.log(`Imported ${sections.length} MS-level CS meeting records across ${new Set(sections.map(s => s.term)).size} terms.`)
+  await writeFile(resolve('src/data/sections.json'), JSON.stringify(uniqueSections, null, 2) + '\n')
+  console.log(`Imported ${uniqueSections.length} distinct MS-level CS sections across ${new Set(uniqueSections.map(s => s.term)).size} terms.`)
 }
 main()
