@@ -102,28 +102,26 @@
   color: #202a20;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root { color: #e0e2db; background: #121412; }
-  .about-grid article, .stat, .requirements, .course-card, .plan-row, .transcript-import, .timetable, .timetable-untimed, .search, select, input { background: #1a1c1a; border-color: #2d332c; color: #e0e2db; }
-  aside { background: #182018; color: #d0d4c8; }
-  .sidebar-footer { border-color: #2b3627; }
-  .nav { color: #9da897; }
-  .nav:hover, .nav.active { background: #293627; color: #fff; }
-  h1, h2, h3, .stat strong, .timetables-header { color: #ffffff; }
-  .eyebrow, .school, .result-count, .plan-row small, .stat small, .requirement small, .details { color: #9aa497; }
-  .primary { background: #d4ab28; color: #151a14; }
-  .light { background: #2d332c; color: #e0e2db; }
-  .added { background: #222820; color: #889682; }
-  .pill, .untimed-pill { background: #222820; color: #98ad8e; }
-  .alert { background: #3d3215; border-color: #5c4b1d; color: #e6c875; }
-  .timetable-times { background: #121412; border-color: #2d332c; }
-  .time-label { color: #9aa497; border-color: #252a24; }
-  .timetable-day { border-color: #252a24; }
-  .day-name { background: #1f231f; border-color: #2d332c; color: #e0e2db; }
-  .day-events { background-image: linear-gradient(to bottom, transparent 49px, #252a24 50px); }
-  .timetable-event { background: #d4ab28; color: #151a14; }
-  .section-heading, .requirement, .review-heading { border-color: #2d332c; }
-  .empty { border-color: #3d453b; }
-  .course-card h3, .plan-row b { color: #a8bba1; }
-  .hero { background: #1a2419; }
-}
+html.dark { color: #e0e2db; background: #121412; }
+html.dark .about-grid article, html.dark .stat, html.dark .requirements, html.dark .course-card, html.dark .plan-row, html.dark .transcript-import, html.dark .timetable, html.dark .timetable-untimed, html.dark .search, html.dark select, html.dark input { background: #1a1c1a; border-color: #2d332c; color: #e0e2db; }
+html.dark aside { background: #182018; color: #d0d4c8; }
+html.dark .sidebar-footer { border-color: #2b3627; }
+html.dark .nav { color: #9da897; }
+html.dark .nav:hover, html.dark .nav.active { background: #293627; color: #fff; }
+html.dark h1, html.dark h2, html.dark h3, html.dark .stat strong, html.dark .timetables-header { color: #ffffff; }
+html.dark .eyebrow, html.dark .school, html.dark .result-count, html.dark .plan-row small, html.dark .stat small, html.dark .requirement small, html.dark .details { color: #9aa497; }
+html.dark .primary { background: #d4ab28; color: #151a14; }
+html.dark .light { background: #2d332c; color: #e0e2db; }
+html.dark .added { background: #222820; color: #889682; }
+html.dark .pill, html.dark .untimed-pill { background: #222820; color: #98ad8e; }
+html.dark .alert { background: #3d3215; border-color: #5c4b1d; color: #e6c875; }
+html.dark .timetable-times { background: #121412; border-color: #2d332c; }
+html.dark .time-label { color: #9aa497; border-color: #252a24; }
+html.dark .timetable-day { border-color: #252a24; }
+html.dark .day-name { background: #1f231f; border-color: #2d332c; color: #e0e2db; }
+html.dark .day-events { background-image: linear-gradient(to bottom, transparent 49px, #252a24 50px); }
+html.dark .timetable-event { background: #d4ab28; color: #151a14; }
+html.dark .section-heading, html.dark .requirement, html.dark .review-heading { border-color: #2d332c; }
+html.dark .empty { border-color: #3d453b; }
+html.dark .course-card h3, html.dark .plan-row b { color: #a8bba1; }
+html.dark .hero { background: #1a2419; }

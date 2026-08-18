@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BookOpen, CalendarDays, CheckCircle2, ClipboardList, FileUp, GraduationCap, Info, LayoutDashboard, LoaderCircle, Plus, Search, Trash2, X } from 'lucide-react'
+import { BookOpen, CalendarDays, CheckCircle2, ClipboardList, FileUp, GraduationCap, Info, LayoutDashboard, LoaderCircle, Plus, Search, Trash2, X, Sun, Moon } from 'lucide-react'
 import sectionsData from './data/sections.json'
 import { coreCourses, courseAreas, gradePoints } from './data/requirements'
 import './styles.css'
@@ -104,7 +104,9 @@ function App() {
   const [query, setQuery] = useState('')
   const [plan, setPlan] = useState<Planned[]>(initialPlan)
   const [track, setTrack] = useState<'non-thesis' | 'thesis'>('non-thesis')
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => (localStorage.getItem('mscs-theme') as 'light' | 'dark') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
   useEffect(() => localStorage.setItem(storageKey, JSON.stringify(plan)), [plan])
+  useEffect(() => { localStorage.setItem('mscs-theme', theme); document.documentElement.classList.toggle('dark', theme === 'dark') }, [theme])
   const offerings = useMemo(() => {
     const source = sections.some(section => section.term === term) ? sections.filter(section => section.term === term) : [...new Map(sections.map(section => [`${section.courseCode}-${section.title}`, section])).values()].map(section => ({ ...section, id: `${term}-${section.courseCode}-${section.title}`, term, section: 'Schedule TBA', type: 'Planning catalog', days: '', start: '', end: '', location: '', instructor: '' }))
     return source.filter(section => `${section.courseCode} ${section.title} ${section.instructor}`.toLowerCase().includes(query.toLowerCase())).sort(compareCourseCode)
@@ -126,7 +128,7 @@ function App() {
   return <div className="app-shell">
     <aside><div className="brand"><GraduationCap size={25}/><span>MSCS<span>plan</span></span></div><p className="school">PURDUE UNIVERSITY</p>
       {([['dashboard','Dashboard',LayoutDashboard],['catalog','Course catalog',Search],['planner','Semester planner',CalendarDays],['grades','Grades & GPA',BookOpen],['study','Plan of study',ClipboardList],['import','Import transcript',FileUp],['about','About',Info]] as const).map(([id,label,Icon]) => <button key={id} onClick={() => setView(id)} className={view === id ? 'nav active' : 'nav'}><Icon size={18}/>{label}</button>)}
-      <div className="sidebar-footer"><span className="avatar">S</span><div><b>Student</b><small>Local workspace</small></div></div>
+      <div className="sidebar-footer"><span className="avatar">S</span><div><b>Student</b><small>Local workspace</small></div><button className="icon" style={{marginLeft: 'auto'}} onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Sun size={17}/> : <Moon size={17}/>}</button></div>
     </aside>
     <main><header><div><p className="eyebrow">MASTER OF SCIENCE · COMPUTER SCIENCE</p><h1>{view === 'dashboard' ? 'Your degree, in focus.' : view === 'catalog' ? 'Find a course' : view === 'planner' ? 'Build your semester' : view === 'grades' ? 'Grades & GPA' : view === 'study' ? 'Plan of study' : view === 'import' ? 'Import your transcript' : 'About MSCSplan'}</h1></div>{view !== 'about' && <select value={track} onChange={e => setTrack(e.target.value as typeof track)}><option value="non-thesis">Non-thesis track</option><option value="thesis">Thesis track</option></select>}</header>
       {view === 'dashboard' && <Dashboard track={track} plan={plan} coreMet={coreMet} degreeCredits={degreeCredits} target={target} gpa={gpa} conflicts={conflicts} setView={setView}/>} 
