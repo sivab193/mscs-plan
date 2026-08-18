@@ -1,8 +1,10 @@
-# MSCS Plan
+# Purdue MSCS Planner
 
-A static, Vercel-ready degree planner for Purdue University MS in Computer Science students. It combines term-specific graduate course offerings with a private browser-local planner, degree-progress checklist, timetable conflict detection, and Purdue-scale GPA calculator.
+[Live App: mscs-plan.vercel.app](https://mscs-plan.vercel.app)
 
-> Unofficial student tool. Always confirm enrollment, degree-plan, and graduation decisions with Purdue CS and your academic advisor.
+A static degree planner for Purdue University MS in Computer Science students. It combines term-specific graduate course offerings with a private browser-local planner, degree-progress checklist, timetable conflict detection, and Purdue-scale GPA calculator.
+
+> **Note:** Unofficial student tool. Always confirm enrollment, degree-plan, and graduation decisions with Purdue CS and your academic advisor.
 
 ## Features
 
@@ -32,14 +34,12 @@ npm run dev
 
 Every push to the production branch creates a new Vercel deployment.
 
-## Data policy for this initial deployment
+## Data Policy
 
 - Import only catalog entries where a listed subject is `CS` and its number is `50000` or higher.
 - Cross-listed offerings are included only when they explicitly list an eligible CS code.
-- `events.csv` is Fall 2026; `events_2.csv` is Spring 2026; `events_3.csv` is Fall 2025.
-- The historic CSVs currently contain only untimed CS 69900 records at MS/PhD level. More complete graduate schedule exports should replace them as they become available.
 
-## Firebase follow-up plan
+## Roadmap & Future Plans
 
 1. Create a Firebase project, enable Email/Password Authentication, and create Firestore.
 2. Add public Firebase web configuration through Vercel environment variables (`VITE_FIREBASE_*`); never commit it as a secret file.

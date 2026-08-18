@@ -5,3 +5,4 @@ dist/
 .env.*
 !.env.example
 firebase-debug.log
+*.csv
